@@ -1,11 +1,3 @@
-# AWS 3-Tier Infrastructure Project
-
-## Overview
-
-This project demonstrates the design and deployment of a scalable AWS infrastructure using Amazon VPC, EC2 Auto Scaling Groups, Launch Templates, Security Groups, and Amazon RDS.
-
-The environment was built following cloud architecture best practices, including network segmentation, private database deployment, and automated compute provisioning.
-
 ## Architecture
 # ☁️ AWS 3-Tier Infrastructure Project
 
