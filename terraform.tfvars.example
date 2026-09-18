@@ -1,0 +1,21 @@
+aws_region = "eu-central-1"
+
+project_name = "three-tier-lab"
+
+vpc_cidr = "10.0.0.0/16"
+
+instance_type = "t3.micro"
+
+frontend_ami = "ami-081720d39920a9281"
+
+backend_ami = "ami-04afd8e501a128ee3"
+
+alb_original_vpc_id = "vpc-0af4b1a46bfa5b719"
+
+rds_instance_class = "db.t4g.micro"
+
+rds_engine_version = "8.4.9"
+
+rds_allocated_storage = 20
+
+rds_secret_arn = "arn:aws:secretsmanager:eu-central-1:649170435174:secret:three-tier-lab/rds-credentials-8X2SXM"
