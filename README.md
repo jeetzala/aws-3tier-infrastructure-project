@@ -1,6 +1,6 @@
 # ☁️ AWS 3-Tier Infrastructure Project
 
-This project demonstrates the design and deployment of a secure, multi-tier application infrastructure on **Amazon Web Services (AWS)** using a custom VPC, public and private subnets, an **Application Load Balancer (ALB)**, **NGINX**, **Amazon EC2**, **Amazon RDS MySQL**, **AWS Secrets Manager**, **IAM**, and **Amazon CloudWatch**.
+This project demonstrates the design and deployment of a secure, multi-tier application infrastructure on **Amazon Web Services (AWS)** using a custom VPC, public and private subnets, an **Application Load Balancer (ALB)**, **NGINX**, **Amazon EC2**, **Amazon RDS MySQL**, **AWS Secrets Manager**, **IAM**, **Amazon CloudWatch**, and **Terraform**.
 
 The architecture separates the application into frontend, backend, and database tiers while implementing restricted communication between each layer.
 
@@ -33,6 +33,8 @@ The project was rebuilt and validated in the **AWS Europe (Frankfurt) Region (`e
 ✅ CloudWatch Monitoring & Alarms
 
 ✅ Tiered Security Groups
+
+✅ Terraform Infrastructure as Code
 
 ✅ End-to-End Application Validation
 
@@ -85,6 +87,8 @@ Backend EC2
           └── CPU, ALB, Target Health, RDS metrics
 ```
 
+Terraform is used to define and manage the deployed infrastructure as code.
+
 ---
 
 # 🧱 Infrastructure Components
@@ -121,6 +125,15 @@ Backend EC2
 * Amazon CloudWatch
 * AWS Systems Manager Session Manager
 
+### Infrastructure as Code
+
+* Terraform
+* Terraform variables
+* Terraform outputs
+* Terraform resource imports
+* Terraform state management
+* Infrastructure drift validation
+
 ---
 
 # 🧰 AWS Services Used
@@ -136,6 +149,10 @@ Backend EC2
 * Internet Gateway
 * Route Tables
 * Security Groups
+
+### Infrastructure as Code
+
+* Terraform
 
 ---
 
@@ -280,8 +297,25 @@ aws-3tier-infrastructure-project/
 │   └── cloudwatch-dashboard.png
 │
 └── terraform/
-    └── Coming in next phase
+    ├── main.tf
+    ├── variables.tf
+    ├── outputs.tf
+    ├── vpc.tf
+    ├── igw.tf
+    ├── subnets.tf
+    ├── route_tables.tf
+    ├── security_groups.tf
+    ├── iam.tf
+    ├── ec2.tf
+    ├── alb.tf
+    ├── rds.tf
+    ├── secrets.tf
+    ├── terraform.tfvars.example
+    ├── .gitignore
+    └── .terraform.lock.hcl
 ```
+
+Terraform state files and the `.terraform` working directory are intentionally excluded from the repository.
 
 ---
 
@@ -385,6 +419,117 @@ The CloudWatch dashboard provides visibility into:
 * ALB traffic and errors
 * Target health
 * RDS health metrics
+
+---
+
+# 🧩 Infrastructure as Code with Terraform
+
+The deployed AWS 3-tier environment is managed using **Terraform Infrastructure as Code**.
+
+The existing AWS resources were imported into Terraform rather than recreated.
+
+Terraform manages the following infrastructure layers:
+
+### Networking
+
+```text
+VPC
+Internet Gateway
+6 Subnets
+3 Route Tables
+6 Route Table Associations
+```
+
+### Security
+
+```text
+ALB Security Group
+Frontend Security Group
+Backend Security Group
+Database Security Group
+ALB Security Group VPC Association
+```
+
+### IAM
+
+```text
+EC2 IAM Role
+EC2 Instance Profile
+AmazonSSMManagedInstanceCore
+Secrets Manager access policy
+```
+
+### Compute
+
+```text
+Frontend EC2
+Backend EC2
+```
+
+### Load Balancing
+
+```text
+Application Load Balancer
+Frontend Target Group
+HTTP Listener
+Frontend Target Registration
+```
+
+### Database & Secrets
+
+```text
+RDS DB Subnet Group
+Amazon RDS MySQL
+AWS Secrets Manager
+```
+
+### Terraform Validation
+
+The Terraform configuration was formatted and validated using:
+
+```bash
+terraform fmt -recursive
+terraform validate
+terraform plan
+```
+
+The imported infrastructure was reconciled against the Terraform configuration with no infrastructure resources requiring creation, modification, or destruction.
+
+Terraform validation returned:
+
+```text
+Success! The configuration is valid.
+```
+
+The infrastructure plan was verified with:
+
+```text
+0 to add
+0 to change
+0 to destroy
+```
+
+Terraform outputs are also defined for important infrastructure information such as:
+
+```text
+VPC ID
+ALB DNS Name
+ALB ARN
+Frontend Instance ID
+Backend Instance ID
+Subnet IDs
+RDS Endpoint
+RDS Port
+Secrets Manager ARN
+```
+
+### Terraform Security
+
+The actual RDS password and other credential values are not stored in the Terraform configuration.
+
+Terraform state files are excluded from GitHub using `.gitignore`.
+
+The `terraform.tfvars.example` file contains example configuration values without database passwords or other secret values.
 
 ---
 
@@ -525,6 +670,38 @@ The application successfully retrieved data from the RDS `users` table.
 
 ---
 
+## ✔️ Step 9 — Manage Infrastructure with Terraform
+
+The existing AWS environment was imported into Terraform.
+
+Terraform configuration was organized into separate files for:
+
+* Networking
+* Security Groups
+* IAM
+* EC2
+* ALB
+* RDS
+* Secrets Manager
+* Variables
+* Outputs
+
+The infrastructure was then validated using:
+
+```bash
+terraform fmt -recursive
+terraform validate
+terraform plan
+```
+
+✅ Terraform configuration validated
+
+✅ Existing AWS resources imported
+
+✅ No infrastructure resources proposed for creation, modification, or destruction
+
+---
+
 # 🧪 Validation Results
 
 | Component                  | Status     |
@@ -540,6 +717,8 @@ The application successfully retrieved data from the RDS `users` table.
 | Secrets Manager            | ✅ Verified |
 | IAM Least Privilege        | ✅ Verified |
 | CloudWatch Monitoring      | ✅ Verified |
+| Terraform Configuration    | ✅ Verified |
+| Terraform Infrastructure   | ✅ Verified |
 | End-to-End Application     | ✅ Verified |
 
 ---
@@ -559,19 +738,15 @@ The application successfully retrieved data from the RDS `users` table.
 * Applying IAM least-privilege principles
 * Monitoring AWS infrastructure with CloudWatch
 * Troubleshooting private network connectivity
-* Validating end-to-end cloud application communication
+* Using Terraform to manage AWS infrastructure as code
+* Importing existing AWS resources into Terraform
+* Using Terraform variables and outputs
+* Validating infrastructure with `terraform plan`
 * Documenting cloud infrastructure for a technical portfolio
 
 ---
 
 # 🧩 Future Improvements
-
-### Infrastructure as Code
-
-* Terraform implementation
-* Reusable Terraform modules
-* Variables and outputs
-* Infrastructure deployment documentation
 
 ### High Availability
 
@@ -588,6 +763,12 @@ The application successfully retrieved data from the RDS `users` table.
 * Additional IAM hardening
 * Automated secret rotation
 
+### Terraform
+
+* Reusable Terraform modules
+* Improved variable organization
+* Remote Terraform state management
+
 ### CI/CD
 
 * GitHub Actions
@@ -598,7 +779,7 @@ The application successfully retrieved data from the RDS `users` table.
 
 # 🏷️ Project Tags
 
-**AWS • Amazon VPC • EC2 • Application Load Balancer • NGINX • Python • Amazon RDS • MySQL • Secrets Manager • IAM • CloudWatch • Systems Manager • Networking • Security Groups • Cloud Infrastructure • Cloud Computing • AWS Architecture • Terraform**
+**AWS • Amazon VPC • EC2 • Application Load Balancer • NGINX • Python • Amazon RDS • MySQL • Secrets Manager • IAM • CloudWatch • Systems Manager • Terraform • Networking • Security Groups • Cloud Infrastructure • Cloud Computing • AWS Architecture**
 
 ---
 
