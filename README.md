@@ -311,7 +311,6 @@ aws-3tier-infrastructure-project/
     ├── rds.tf
     ├── secrets.tf
     ├── terraform.tfvars.example
-    ├── .gitignore
     └── .terraform.lock.hcl
 ```
 
